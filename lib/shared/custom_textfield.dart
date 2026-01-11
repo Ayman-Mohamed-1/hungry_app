@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hungry_app/core/constants/app_colors.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hungry_app/core/styling/app_colors.dart';
 
 class CustomTextfield extends StatefulWidget {
   const CustomTextfield({
@@ -7,10 +8,12 @@ class CustomTextfield extends StatefulWidget {
     required this.hintText,
     required this.isPassword,
     required this.controller,
+    this.isSearch,
   });
 
   final String hintText;
   final bool isPassword;
+  final bool? isSearch;
   final TextEditingController controller;
 
   @override
@@ -34,18 +37,14 @@ class _CustomTextfieldState extends State<CustomTextfield> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      cursorHeight: 20.h,
+      style: TextStyle(fontSize: 14.sp, color: Colors.white),
       controller: widget.controller,
-      cursorHeight: 20,
       cursorColor: AppColors.primary,
-      validator: (v) {
-        if (v == null || v.isEmpty) {
-          return 'Please enter ${widget.hintText}';
-        }
-        null;
-      },
       obscureText: widget.isPassword ? _obscureText : false,
-
       decoration: InputDecoration(
+        // border: ,
+        contentPadding: EdgeInsets.all(8),
         suffixIcon: widget.isPassword
             ? IconButton(
                 onPressed: _togglePassword,
@@ -55,55 +54,15 @@ class _CustomTextfieldState extends State<CustomTextfield> {
                 ),
               )
             : null,
+        prefixIcon: widget.isSearch == true ? Icon(Icons.search) : null,
         hintText: widget.hintText,
-        filled: true,
-        fillColor: AppColors.white,
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(color: AppColors.white),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(color: AppColors.white),
-        ),
       ),
+      validator: (v) {
+        if (v == null || v.isEmpty) {
+          return 'Please enter ${widget.hintText}';
+        }
+        return null;
+      },
     );
   }
 }
-
-// import 'package:flutter/material.dart';
-// import 'package:hungry_app/core/constants/app_colors.dart';
-
-// class CustomTextfield extends StatelessWidget {
-//   CustomTextfield({
-//     super.key,
-//     required this.hintText,
-//     required this.isPassword,
-
-//   });
-//   final String hintText = text;
-//   final bool obscureText = isPassword;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return TextFormField(
-//       cursorHeight: 20,
-//       cursorColor: AppColors.primary,
-//       validator: (value) {},
-//       obscureText: false,
-//       decoration: InputDecoration(
-//         hintText: "Email",
-//         filled: true,
-//         fillColor: AppColors.white,
-//         enabledBorder: OutlineInputBorder(
-//           borderRadius: BorderRadius.circular(10),
-//           borderSide: BorderSide(color: AppColors.white),
-//         ),
-//         focusedBorder: OutlineInputBorder(
-//           borderRadius: BorderRadius.circular(10),
-//           borderSide: BorderSide(color: AppColors.white),
-//         ),
-//       ),
-//     );
-//   }
-// }
